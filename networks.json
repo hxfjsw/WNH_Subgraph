@@ -2,6 +2,9 @@
   "bsc": {
     "CoreContract": {
       "address": "0xa27788319E0b3B3Be267c1f002435ACf047D9598"
+    },
+    "AuctionContract": {
+      "address": "0x1b8759a781dedcd0b23c09fe889be88f5d938f70"
     }
   }
 }
