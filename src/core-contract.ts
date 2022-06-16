@@ -9,7 +9,7 @@ import {
   Approval,
   ApprovalForAll
 } from "../generated/CoreContract/CoreContract"
-import { SpawnedEntity } from "../generated/schema"
+import { SpawnedEntity,TransferEntity } from "../generated/schema"
 
 export function handleAxieSpawned(event: AxieSpawned): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -30,10 +30,10 @@ export function handleAxieSpawned(event: AxieSpawned): void {
   entity.count = entity.count + BigInt.fromI32(1)
 
   // Entity fields can be set based on event parameters
-  entity._axieId = event.params._axieId
-  entity._owner = event.params._owner
-  entity._genes = event.params._genes
-  entity._txid = event.transaction.hash
+  entity.axieId = event.params._axieId
+  entity.owner = event.params._owner
+  entity.genes = event.params._genes
+  entity.txid = event.transaction.hash
 
   // Entities can be written to the store with `.save()`
   entity.save()
@@ -89,7 +89,32 @@ export function handleAxieRetired(event: AxieRetired): void {}
 
 export function handleAxieEvolved(event: AxieEvolved): void {}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  let entity = TransferEntity.load(event.transaction.from.toHex())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (!entity) {
+    entity = new TransferEntity(event.transaction.from.toHex())
+
+    // Entity fields can be set using simple assignments
+    entity.count = BigInt.fromI32(0)
+  }
+
+  // BigInt and BigDecimal math are supported
+  // @ts-ignore
+  entity.count = entity.count + BigInt.fromI32(1)
+
+  // Entity fields can be set based on event parameters
+  entity.axieId = event.params._tokenId
+  entity.from = event.params._from
+  entity.to = event.params._to
+  entity.txid = event.transaction.hash
+
+  // Entities can be written to the store with `.save()`
+  entity.save()
+
+}
 
 export function handleApproval(event: Approval): void {}
 

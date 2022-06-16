@@ -1,15 +1,24 @@
 type UserEntity @entity {
     id: ID!
+    owner: Bytes! # address
     axieCount: Int!
 }
 
 type SpawnedEntity @entity {
     id: ID!
     count: BigInt!
-    _axieId: BigInt! # uint256
-    _owner: Bytes! # address
-    _genes:BigInt!
-    _txid:Bytes!
+    axieId: BigInt! # uint256
+    owner: Bytes! # address
+    genes:BigInt!
+    txid:Bytes!
 }
 
 
+type TransferEntity @entity {
+    id: ID!
+    count: BigInt!
+    axieId: BigInt! # uint256
+    from: Bytes! # address
+    to: Bytes! # address
+    txid:Bytes!
+}
