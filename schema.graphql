@@ -1,6 +1,15 @@
-type ExampleEntity @entity {
-  id: ID!
-  count: BigInt!
-  _axieId: BigInt! # uint256
-  _owner: Bytes! # address
+type UserEntity @entity {
+    id: ID!
+    axieCount: Int!
 }
+
+type SpawnedEntity @entity {
+    id: ID!
+    count: BigInt!
+    _axieId: BigInt! # uint256
+    _owner: Bytes! # address
+    _genes:BigInt!
+    _txid:Bytes!
+}
+
+

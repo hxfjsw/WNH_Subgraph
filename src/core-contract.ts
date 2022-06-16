@@ -9,28 +9,31 @@ import {
   Approval,
   ApprovalForAll
 } from "../generated/CoreContract/CoreContract"
-import { ExampleEntity } from "../generated/schema"
+import { SpawnedEntity } from "../generated/schema"
 
 export function handleAxieSpawned(event: AxieSpawned): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = SpawnedEntity.load(event.transaction.from.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+    entity = new SpawnedEntity(event.transaction.from.toHex())
 
     // Entity fields can be set using simple assignments
     entity.count = BigInt.fromI32(0)
   }
 
   // BigInt and BigDecimal math are supported
+  // @ts-ignore
   entity.count = entity.count + BigInt.fromI32(1)
 
   // Entity fields can be set based on event parameters
   entity._axieId = event.params._axieId
   entity._owner = event.params._owner
+  entity._genes = event.params._genes
+  entity._txid = event.transaction.hash
 
   // Entities can be written to the store with `.save()`
   entity.save()
