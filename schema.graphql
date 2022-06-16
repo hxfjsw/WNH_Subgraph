@@ -4,6 +4,16 @@ type UserEntity @entity {
     axieCount: Int!
 }
 
+type TokenEntity @entity {
+    id: ID!
+    count: BigInt!
+}
+
+type AuctionEntity @entity {
+    id: ID!
+    count: BigInt!
+}
+
 type SpawnedEntity @entity {
     id: ID!
     count: BigInt!
@@ -30,6 +40,18 @@ type AuctionCreatedEntity @entity {
     nftAddress: Bytes! # address
     tokenId: BigInt! # uint256
     seller: Bytes! # address
+    duration: BigInt! # uint256
+    startingPrice: BigInt! # uint256
+    endingPrice: BigInt! # uint256
     txid:Bytes!
 }
 
+type AuctionSuccessfulEntity @entity {
+    id: ID!
+    count: BigInt!
+}
+
+type AuctionCancelledEntity @entity {
+    id: ID!
+    count: BigInt!
+}
