@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CoreContract
+    network: bsc
+    source:
+      address: "0xa27788319E0b3B3Be267c1f002435ACf047D9598"
+      abi: CoreContract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - AxieSpawned
+        - AxieRebirthed
+        - AxieRetired
+        - AxieEvolved
+        - Transfer
+        - Approval
+        - ApprovalForAll
+      abis:
+        - name: CoreContract
+          file: ./abis/CoreContract.json
+      eventHandlers:
+        - event: AxieSpawned(indexed uint256,indexed address,uint256)
+          handler: handleAxieSpawned
+        - event: AxieRebirthed(indexed uint256,uint256)
+          handler: handleAxieRebirthed
+        - event: AxieRetired(indexed uint256)
+          handler: handleAxieRetired
+        - event: AxieEvolved(indexed uint256,uint256,uint256)
+          handler: handleAxieEvolved
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+      file: ./src/core-contract.ts
